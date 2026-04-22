@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Vertical mast -->
+  <line x1="22" y1="54" x2="22" y2="10" stroke="#E30613" stroke-width="3" stroke-linecap="round"/>
+  <!-- Horizontal jib (top arm) -->
+  <line x1="22" y1="14" x2="52" y2="14" stroke="#E30613" stroke-width="3" stroke-linecap="round"/>
+  <!-- Counter jib -->
+  <line x1="22" y1="14" x2="10" y2="14" stroke="#E30613" stroke-width="3" stroke-linecap="round"/>
+  <!-- Diagonal support from mast top to jib end -->
+  <line x1="22" y1="22" x2="52" y2="14" stroke="#E30613" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  <!-- Hook cable -->
+  <line x1="40" y1="14" x2="40" y2="36" stroke="#E30613" stroke-width="2" stroke-linecap="round"/>
+  <!-- Hook -->
+  <path d="M37 34 Q34 38 37 41 Q40 44 43 41" stroke="#E30613" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <!-- Base feet -->
+  <line x1="14" y1="54" x2="30" y2="54" stroke="#E30613" stroke-width="3" stroke-linecap="round"/>
+</svg>

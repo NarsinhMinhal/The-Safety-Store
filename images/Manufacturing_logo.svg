@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Gear built as a proper polygon with teeth -->
+  <!-- Outer gear ring with 8 teeth via clip path trick: use stroke on a path -->
+  <path d="
+    M32 10
+    L35.5 10 L37 14 L41 13 L43 16.5
+    L47 16 L48.5 19.5 L52 22
+    L54 25.5 L51 28 L54 32
+    L54 35.5 L50 37 L51 41
+    L48.5 44 L45 44 L43 47.5
+    L39.5 49 L37 46.5 L32 54
+    L27 46.5 L24.5 49 L21 47.5
+    L19 44 L15.5 44 L13 41
+    L14 37 L10 35.5 L10 32
+    L13 28 L10 25.5 L12 22
+    L15.5 19.5 L17 16 L21 16.5
+    L23 13 L27 14 L28.5 10 Z
+  " stroke="#E30613" stroke-width="2.2" stroke-linejoin="round" fill="rgba(227,6,19,0.1)"/>
+  <!-- Inner hole -->
+  <circle cx="32" cy="32" r="9" fill="rgba(227,6,19,0.1)" stroke="#E30613" stroke-width="2.5"/>
+</svg>

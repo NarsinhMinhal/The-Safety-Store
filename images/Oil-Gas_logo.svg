@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Oil drop -->
+  <path d="M32 8 C32 8 18 26 18 36 C18 44.837 24.268 52 32 52 C39.732 52 46 44.837 46 36 C46 26 32 8 32 8Z" stroke="#E30613" stroke-width="2.8" stroke-linejoin="round" fill="rgba(227,6,19,0.1)"/>
+  <!-- Shine -->
+  <path d="M24 33 Q26 27 30 25" stroke="#E30613" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+  <!-- Flame on top -->
+  <path d="M32 8 C34 5 38 3 36 8 C38 6 42 7 39 11" stroke="#E30613" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.85"/>
+</svg>
