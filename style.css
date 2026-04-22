@@ -227,10 +227,20 @@ body.badge-hover #cCursor {
 .loader-wordmark {
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: clamp(11px, 2vw, 13px);
-    letter-spacing: 6px;
+    font-size: clamp(10px, 2vw, 13px);
+    letter-spacing: 4px;          /* reduced so long French text doesn't overflow */
     color: var(--text-3);
     text-transform: uppercase;
+    text-align: center;
+    padding: 0 20px;              /* side padding prevents edge-touching on narrow screens */
+    max-width: 90vw;              /* never wider than the viewport */
+    word-break: break-word;
+    line-height: 1.6;
+}
+
+/* On very small phones reduce letter-spacing further */
+@media (max-width: 380px) {
+    .loader-wordmark { letter-spacing: 2px; font-size: 10px; }
 }
 
 .loader-bar-wrap {
@@ -2823,34 +2833,73 @@ body.menu-open main {
 .footer-bottom {
     background: #09080A;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 24px 0;
+    padding: 20px 0;
 }
 
 .footer-bottom .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
 .footer-bottom p {
     font-size: 12px;
-    color: #8C8896; /* Brightened from #4A474E so it's actually readable */
+    color: #8C8896;
     letter-spacing: 0.5px;
     margin: 0;
 }
 
-/* Ensure the JS-Ready hider doesn't kill the footer bottom if GSAP fails */
-body.js-ready .footer-bottom {
-    opacity: 1 !important; 
+/* "Powered by IconTech Studio" pill */
+.footer-powered {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #8C8896;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
 }
+
+.footer-powered-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 4px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 100px;
+    transition: border-color 0.25s, color 0.25s, background 0.25s;
+}
+
+.footer-powered-link:hover {
+    border-color: var(--red);
+    color: var(--red);
+    background: rgba(227, 6, 19, 0.08);
+}
+
+.footer-powered-icon {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+}
+
+/* Ensure footer-bottom stays visible if GSAP fails */
+body.js-ready .footer-bottom { opacity: 1 !important; }
 
 /* --- RESPONSIVENESS --- */
 @media (max-width: 1024px) {
     .footer-grid {
         grid-template-columns: 1.5fr 1fr 1.2fr;
     }
-    .footer-col:nth-child(3) { display: none; } /* Hide one category column on tablets */
+    .footer-col:nth-child(3) { display: none; }
 }
 
 @media (max-width: 768px) {
@@ -2861,9 +2910,15 @@ body.js-ready .footer-bottom {
     .footer-brand {
         grid-column: span 2;
     }
+    /* Stack footer-bottom items vertically on mobile */
     .footer-bottom .container {
         flex-direction: column;
+        align-items: center;
         text-align: center;
+        gap: 10px;
+    }
+    .footer-powered {
+        margin-top: 4px;
     }
 }
 

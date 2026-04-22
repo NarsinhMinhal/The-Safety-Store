@@ -1164,27 +1164,27 @@ function applyTranslations(lang) {
 function initLangSwitcher() {
   const btns = document.querySelectorAll('.lang-btn');
 
-  // Set initial active state based on localStorage
+  // Apply saved language on load
   const savedLang = localStorage.getItem('tss-lang') || 'en';
   applyTranslations(savedLang);
 
+  // Set initial active button
   btns.forEach(btn => {
-    if (btn.getAttribute('data-lang') === savedLang) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
-    }
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === savedLang);
   });
 
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
       const lang = btn.getAttribute('data-lang');
 
-      // Update UI
+      // Do nothing if this language is already active
+      if (btn.classList.contains('active')) return;
+
+      // Update active state
       btns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // Apply translation
+      // Apply translation and persist
       applyTranslations(lang);
       localStorage.setItem('tss-lang', lang);
     });
