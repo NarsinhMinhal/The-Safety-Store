@@ -219,13 +219,6 @@ function initMobileMenu() {
       });
     }
 
-    gsap.to(".mobile-menu-logo", {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      ease: "expo.out"
-    });
-
     // Footer animation
     gsap.to(".mobile-menu-footer", {
       opacity: 1,
@@ -308,50 +301,26 @@ function animateHero() {
   gsap.set(".hero-stats", { opacity: 0, y: 22 });
   gsap.set(".hero-stat", { opacity: 0, y: 14 });
 
-  // SVG scene
-  fetch('images/worker.svg')
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById('svgContainer').innerHTML = data;
-
-    // 🔥 NOW GSAP WORKS
-    gsap.fromTo("#worker", 
-      { opacity: 0, y: 30 }, 
-      { opacity: 1, y: 0, duration: 1.2, ease: "expo.out", delay: 0.6 }
-    );
-
-    gsap.fromTo("#floatIcon1", 
-      { opacity: 0, scale: 0.5 }, 
-      { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(2)", delay: 1.2 }
-    );
-
-    gsap.to("#floatIcon1", {
-      y: -10,
-      duration: 3,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      delay: 2
+  // Animate PPE category items (desktop only — they're hidden on mobile)
+  if (!mob) {
+    gsap.set(".hero-ppe-item", { opacity: 0, y: 30, scale: 0.88 });
+    gsap.to(".hero-ppe-item", {
+      opacity: 1, y: 0, scale: 1,
+      duration: 0.6,
+      stagger: 0.07,
+      ease: "back.out(1.4)",
+      delay: 0.9
     });
-
-    gsap.to("#worker", {
-      y: -6,
-      duration: 3.5,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      delay: 2
-    });
-  });
+  }
 
   // Text timeline
   const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
-  tl.fromTo(".hero-badge", { opacity: 0, y: 24, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.8 }, 0)
+  tl.fromTo(".hero-badge",      { opacity: 0, y: 24, scale: 0.9 },       { opacity: 1, y: 0, scale: 1, duration: 0.8 }, 0)
     .fromTo(".hero-line .hero-word", { opacity: 0, y: mob ? 60 : 90, skewX: mob ? 0 : -4 }, { opacity: 1, y: 0, skewX: 0, duration: mob ? 0.85 : 1.15, stagger: 0.1 }, 0.15)
-    .fromTo(".hero-sub", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.85 }, mob ? 0.5 : 0.65)
-    .fromTo(".hero-actions .btn", { opacity: 0, y: 18, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.1 }, mob ? 0.65 : 0.8)
-    .fromTo(".hero-stats", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.7 }, mob ? 0.8 : 1.0)
-    .fromTo(".hero-stat", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 }, mob ? 0.85 : 1.05);
+    .fromTo(".hero-sub",        { opacity: 0, y: 22 },                    { opacity: 1, y: 0, duration: 0.85 }, mob ? 0.5 : 0.65)
+    .fromTo(".hero-actions .btn", { opacity: 0, y: 18, scale: 0.95 },     { opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.1 }, mob ? 0.65 : 0.8)
+    .fromTo(".hero-stats",      { opacity: 0, y: 22 },                    { opacity: 1, y: 0, duration: 0.7 }, mob ? 0.8 : 1.0)
+    .fromTo(".hero-stat",       { opacity: 0, y: 14 },                    { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 }, mob ? 0.85 : 1.05);
 }
 
 
@@ -886,6 +855,9 @@ window.addEventListener('beforeunload', () => {
         { x: 28, opacity: 0 },
         { x: 0, opacity: 1, duration: 0.5, stagger: 0.07, ease: 'expo.out', delay: 0.15 }
       );
+      gsap.to('.mobile-menu-footer', {
+        opacity: 1, y: 0, duration: 0.5, ease: 'expo.out', delay: 0.3
+      });
     }
   }
 
@@ -918,6 +890,7 @@ const TRANSLATIONS = {
     "nav.cta": "Get a Quote",
     "mobile.tagline": "WHERE SAFETY BEGINS · EST. 2019",
     "hero.badge": "Established 2019 · Global PPE Supplier",
+    "hero.badge.short": "GLOBAL PPE SUPPLIER",
     "hero.title1": "The",
     "hero.title2": "Safety",
     "hero.title3": "Store",
@@ -1034,6 +1007,7 @@ const TRANSLATIONS = {
     "nav.cta": "Obtenir un Devis",
     "mobile.tagline": "LA SÉCURITÉ AVANT TOUT · FONDÉ 2019",
     "hero.badge": "Fondé en 2019 · Fournisseur Mondial d'EPI",
+    "hero.badge.short": "FOURNISSEUR MONDIAL D'EPI",
     "hero.title1": "La",
     "hero.title2": "Sécurité",
     "hero.title3": "D'abord",

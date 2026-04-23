@@ -87,7 +87,7 @@
   <!-- MOBILE BACKDROP -->
   <div class="mobile-backdrop" id="mobileBackdrop"></div>
 
-  <!-- MOBILE MENU — only X, links, footer tagline -->
+  <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
     <button class="mobile-close-btn" id="mobileCloseBtn" aria-label="Close menu">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -97,21 +97,20 @@
       </svg>
     </button>
     <div class="mobile-menu-inner">
-      <img src="images/TSS LOGO.png" alt="TSS Logo">
+      <img src="images/TSS LOGO.png" alt="TSS Logo" class="mobile-menu-logo-img">
+      <nav class="mobile-nav">
+        <a href="#home" class="mobile-link" data-i18n="nav.home">HOME</a>
+        <a href="#about" class="mobile-link" data-i18n="nav.about">ABOUT</a>
+        <a href="#products" class="mobile-link" data-i18n="nav.products">PRODUCTS</a>
+        <a href="#industries" class="mobile-link" data-i18n="nav.industries">INDUSTRIES</a>
+        <a href="#contact" class="mobile-link" data-i18n="nav.contact">CONTACT</a>
+      </nav>
     </div>
-    <nav class="mobile-nav">
-      <a href="#home" class="mobile-link" data-i18n="nav.home">HOME</a>
-      <a href="#about" class="mobile-link" data-i18n="nav.about">ABOUT</a>
-      <a href="#products" class="mobile-link" data-i18n="nav.products">PRODUCTS</a>
-      <a href="#industries" class="mobile-link" data-i18n="nav.industries">INDUSTRIES</a>
-      <a href="#contact" class="mobile-link" data-i18n="nav.contact">CONTACT</a>
-    </nav>
     <div class="mobile-menu-footer">
       <div class="mmf-line"></div>
       <p class="mmf-tagline" data-i18n="mobile.tagline">WHERE SAFETY BEGINS</p>
       <p class="mmf-sub" data-i18n="hero.badge">EST. 2019 · GLOBAL PPE SUPPLIER</p>
     </div>
-  </div>
   </div>
 
   <main>
@@ -119,7 +118,6 @@
     <!-- HERO -->
     <section class="hero" id="home" aria-label="Hero">
       <div class="hero-bg">
-        <div class="hero-grid"></div>
         <div class="hero-orb hero-orb--1"></div>
         <div class="hero-orb hero-orb--2"></div>
         <div class="hero-particles" id="heroParticles"></div>
@@ -129,7 +127,7 @@
         <div class="hero-content">
           <div class="hero-badge">
             <div class="badge-dot"></div>
-            <span data-i18n="hero.badge">Established 2019 · Global PPE Supplier</span>
+            <span data-i18n="hero.badge.short">GLOBAL PPE SUPPLIER</span>
           </div>
 
           <h1 class="hero-title">
@@ -178,9 +176,42 @@
           </div>
         </div>
 
-        <!-- RIGHT: Construction Worker SVG Scene -->
+        <!-- RIGHT: PPE Category Icons Visual -->
         <div class="hero-visual" id="heroVisual">
-          <div id="svgContainer"></div>
+          <div class="hero-ppe-grid">
+            <div class="hero-ppe-item hero-ppe-item--1">
+              <div class="hero-ppe-icon"><img src="images/Helmet_logo.png" alt="Head Protection"></div>
+              <span>Head Protection</span>
+            </div>
+            <div class="hero-ppe-item hero-ppe-item--2">
+              <div class="hero-ppe-icon"><img src="images/Mask_logo.png" alt="Respiratory"></div>
+              <span>Respiratory</span>
+            </div>
+            <div class="hero-ppe-item hero-ppe-item--3">
+              <div class="hero-ppe-icon"><img src="images/Gloves_logo.png" alt="Hand Protection"></div>
+              <span>Hand Protection</span>
+            </div>
+            <div class="hero-ppe-item hero-ppe-item--4">
+              <div class="hero-ppe-icon"><img src="images/Safety-Goggles_logo.png" alt="Eye Protection"></div>
+              <span>Eye Protection</span>
+            </div>
+            <div class="hero-ppe-item hero-ppe-item--5">
+              <div class="hero-ppe-icon"><img src="images/Boots_logo.png" alt="Footwear"></div>
+              <span>Safety Footwear</span>
+            </div>
+            <div class="hero-ppe-item hero-ppe-item--6">
+              <div class="hero-ppe-icon"><img src="images/vest_logo.png" alt="Fall Protection"></div>
+              <span>Fall Protection</span>
+            </div>
+            <div class="hero-ppe-item hero-ppe-item--7">
+              <div class="hero-ppe-icon"><img src="images/Body-Suit_logo.png" alt="Protective Clothing"></div>
+              <span>Protective Clothing</span>
+            </div>
+            <div class="hero-ppe-item hero-ppe-item--8">
+              <div class="hero-ppe-icon"><img src="images/Ear-Plugs_logo.png" alt="Ear Protection"></div>
+              <span>Ear Protection</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -215,14 +246,36 @@
         <div class="about-grid">
           <div class="about-visual">
             <div class="about-card-main">
-              <div class="about-shield">
-                <svg viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M40 4L8 16V42C8 60 22 76 40 84C58 76 72 60 72 42V16L40 4Z" fill="#E30613" opacity="0.1"
-                    stroke="#E30613" stroke-width="2" />
-                  <path d="M28 45L36 53L54 35" stroke="#E30613" stroke-width="3" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                </svg>
-              </div>
+            <div class="about-shield about-shield--certified">
+              <svg viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg" class="certified-shield-svg">
+                <!-- Outer armour plates -->
+                <path d="M40 4L8 16V42C8 60 22 76 40 84C58 76 72 60 72 42V16L40 4Z" fill="url(#shieldGradient)" stroke="#1a7a4a" stroke-width="1.5"/>
+                <!-- Inner armour plate lines -->
+                <path d="M40 12L16 22V42C16 56 26 70 40 78C54 70 64 56 64 42V22L40 12Z" fill="url(#shieldInner)" stroke="#22c55e" stroke-width="0.8" opacity="0.6"/>
+                <!-- Shoulder plates -->
+                <path d="M8 16L20 20V30L8 26Z" fill="#166534" opacity="0.8"/>
+                <path d="M72 16L60 20V30L72 26Z" fill="#166534" opacity="0.8"/>
+                <!-- Chest plate rivet dots -->
+                <circle cx="24" cy="34" r="2" fill="#22c55e" opacity="0.7"/>
+                <circle cx="56" cy="34" r="2" fill="#22c55e" opacity="0.7"/>
+                <circle cx="40" cy="28" r="2.5" fill="#22c55e" opacity="0.8"/>
+                <!-- Check mark -->
+                <path d="M27 45L36 54L55 34" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <!-- Armour glow line at top -->
+                <path d="M8 16L40 4L72 16" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" opacity="0.9"/>
+                <defs>
+                  <linearGradient id="shieldGradient" x1="40" y1="4" x2="40" y2="84" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#166534"/>
+                    <stop offset="50%" stop-color="#15803d"/>
+                    <stop offset="100%" stop-color="#14532d"/>
+                  </linearGradient>
+                  <linearGradient id="shieldInner" x1="40" y1="12" x2="40" y2="78" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#22c55e" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#166534" stop-opacity="0.1"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
               <div class="about-card-logo">
                 <img src="images/TSS LOGO.png" alt="TSS Logo"
                   style="height: 50px; width: auto; object-fit: contain;" />
@@ -235,9 +288,15 @@
             </div>
             <div class="about-floating-badge" id="aboutBadge">
               <svg viewBox="0 0 100 100" class="badge-circle-svg">
-                <circle cx="50" cy="50" r="44" fill="none" stroke="#E30613" stroke-width="1" stroke-dasharray="3 5" />
+                <circle cx="50" cy="50" r="44" fill="none" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="4 6" />
               </svg>
-              <span class="badge-inner-text" data-i18n="about.certified">CERTIFIED<br />SUPPLIER</span>
+              <div class="badge-inner-content">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" class="badge-check-icon">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <polyline points="9 12 11 14 15 10"/>
+                </svg>
+                <span class="badge-inner-text" data-i18n="about.certified">CERTIFIED<br/>SUPPLIER</span>
+              </div>
             </div>
           </div>
 
@@ -321,100 +380,115 @@
 
         <div class="product-grid">
           <div class="product-card" data-card>
-            <div class="card-top">
+            <div class="card-icon-center">
               <div class="card-icon-wrap icon-helmet">
-                <div><img src="images/Helmet_logo.png" alt=""></div>
+                <img src="images/Helmet_logo.png" alt="">
               </div>
+            </div>
+            <div class="card-body">
               <span class="card-num">01</span>
+              <h3 class="card-title" data-i18n="product.1.title">Head Protection</h3>
+              <p class="card-desc" data-i18n="product.1.desc">Safety helmets &amp; hard hats for all hazard levels</p>
+              <div class="card-footer"><span class="card-tag" data-i18n="product.1.tag">Essential PPE</span></div>
             </div>
-            <h3 class="card-title" data-i18n="product.1.title">Head Protection</h3>
-            <p class="card-desc" data-i18n="product.1.desc">Safety helmets &amp; hard hats for all hazard levels</p>
-            <div class="card-footer"><span class="card-tag" data-i18n="product.1.tag">Essential PPE</span></div>
           </div>
 
           <div class="product-card" data-card>
-            <div class="card-top">
+            <div class="card-icon-center">
               <div class="card-icon-wrap icon-mask">
-                <div><img src="images/Mask_logo.png" alt=""></div>
+                <img src="images/Mask_logo.png" alt="">
               </div>
+            </div>
+            <div class="card-body">
               <span class="card-num">02</span>
+              <h3 class="card-title" data-i18n="product.2.title">Respiratory Protection</h3>
+              <p class="card-desc" data-i18n="product.2.desc">Dust masks, respirators &amp; air-purifying equipment</p>
+              <div class="card-footer"><span class="card-tag" data-i18n="product.2.tag">Air Safety</span></div>
             </div>
-            <h3 class="card-title" data-i18n="product.2.title">Respiratory Protection</h3>
-            <p class="card-desc" data-i18n="product.2.desc">Dust masks, respirators &amp; air-purifying equipment</p>
-            <div class="card-footer"><span class="card-tag" data-i18n="product.2.tag">Air Safety</span></div>
           </div>
 
           <div class="product-card" data-card>
-            <div class="card-top">
+            <div class="card-icon-center">
               <div class="card-icon-wrap icon-goggles">
-                <div><img src="images/Safety-Goggles_logo.png" alt=""></div>
+                <img src="images/Safety-Goggles_logo.png" alt="">
               </div>
+            </div>
+            <div class="card-body">
               <span class="card-num">03</span>
+              <h3 class="card-title" data-i18n="product.3.title">Eye &amp; Face Protection</h3>
+              <p class="card-desc" data-i18n="product.3.desc">Safety goggles, face shields &amp; visors</p>
+              <div class="card-footer"><span class="card-tag" data-i18n="product.3.tag">Vision Safety</span></div>
             </div>
-            <h3 class="card-title" data-i18n="product.3.title">Eye &amp; Face Protection</h3>
-            <p class="card-desc" data-i18n="product.3.desc">Safety goggles, face shields &amp; visors</p>
-            <div class="card-footer"><span class="card-tag" data-i18n="product.3.tag">Vision Safety</span></div>
           </div>
 
           <div class="product-card" data-card>
-            <div class="card-top">
+            <div class="card-icon-center">
               <div class="card-icon-wrap icon-boots">
-                <div><img src="images/Boots_logo.png" alt=""></div>
+                <img src="images/Boots_logo.png" alt="">
               </div>
+            </div>
+            <div class="card-body">
               <span class="card-num">04</span>
+              <h3 class="card-title" data-i18n="product.4.title">Protective Footwear</h3>
+              <p class="card-desc" data-i18n="product.4.desc">Steel-toe boots, safety shoes &amp; anti-slip footwear</p>
+              <div class="card-footer"><span class="card-tag" data-i18n="product.4.tag">Foot Safety</span></div>
             </div>
-            <h3 class="card-title" data-i18n="product.4.title">Protective Footwear</h3>
-            <p class="card-desc" data-i18n="product.4.desc">Steel-toe boots, safety shoes &amp; anti-slip footwear</p>
-            <div class="card-footer"><span class="card-tag" data-i18n="product.4.tag">Foot Safety</span></div>
           </div>
 
           <div class="product-card" data-card>
-            <div class="card-top">
+            <div class="card-icon-center">
               <div class="card-icon-wrap icon-ear">
-                <div><img src="images/Ear-Plugs_logo.png" alt=""></div>
+                <img src="images/Ear-Plugs_logo.png" alt="">
               </div>
+            </div>
+            <div class="card-body">
               <span class="card-num">05</span>
+              <h3 class="card-title" data-i18n="product.5.title">Ear Protection</h3>
+              <p class="card-desc" data-i18n="product.5.desc">Earmuffs, earplugs &amp; hearing conservation devices</p>
+              <div class="card-footer"><span class="card-tag" data-i18n="product.5.tag">Hearing Safety</span></div>
             </div>
-            <h3 class="card-title" data-i18n="product.5.title">Ear Protection</h3>
-            <p class="card-desc" data-i18n="product.5.desc">Earmuffs, earplugs &amp; hearing conservation devices</p>
-            <div class="card-footer"><span class="card-tag" data-i18n="product.5.tag">Hearing Safety</span></div>
           </div>
 
           <div class="product-card" data-card>
-            <div class="card-top">
+            <div class="card-icon-center">
               <div class="card-icon-wrap icon-body">
-                <div><img src="images/Body-Suit_logo.png" alt=""></div>
+                <img src="images/Body-Suit_logo.png" alt="">
               </div>
+            </div>
+            <div class="card-body">
               <span class="card-num">06</span>
+              <h3 class="card-title" data-i18n="product.6.title">Protective Clothing</h3>
+              <p class="card-desc" data-i18n="product.6.desc">Coveralls, lab coats, rainwear &amp; high-vis vests</p>
+              <div class="card-footer"><span class="card-tag" data-i18n="product.6.tag">Body Protection</span></div>
             </div>
-            <h3 class="card-title" data-i18n="product.6.title">Protective Clothing</h3>
-            <p class="card-desc" data-i18n="product.6.desc">Coveralls, lab coats, rainwear &amp; high-vis vests</p>
-            <div class="card-footer"><span class="card-tag" data-i18n="product.6.tag">Body Protection</span></div>
           </div>
 
           <div class="product-card" data-card>
-            <div class="card-top">
+            <div class="card-icon-center">
               <div class="card-icon-wrap icon_gloves">
-                <div><img src="images/Gloves_logo.png" alt=""></div>
+                <img src="images/Gloves_logo.png" alt="">
               </div>
-              <span class="card-num">07</span>
             </div>
-            <h3 class="card-title" data-i18n="product.7.title">Hand Protection</h3>
-            <p class="card-desc" data-i18n="product.7.desc">Industrial gloves, cut-resistant &amp; chemical-proof
-              variants</p>
-            <div class="card-footer"><span class="card-tag" data-i18n="product.7.tag">Grip Safety</span></div>
+            <div class="card-body">
+              <span class="card-num">07</span>
+              <h3 class="card-title" data-i18n="product.7.title">Hand Protection</h3>
+              <p class="card-desc" data-i18n="product.7.desc">Industrial gloves, cut-resistant &amp; chemical-proof variants</p>
+              <div class="card-footer"><span class="card-tag" data-i18n="product.7.tag">Grip Safety</span></div>
+            </div>
           </div>
 
           <div class="product-card" data-card>
-            <div class="card-top">
+            <div class="card-icon-center">
               <div class="card-icon-wrap icon_vest">
-                <div><img src="images/vest_logo.png" alt=""></div>
+                <img src="images/vest_logo.png" alt="">
               </div>
-              <span class="card-num">08</span>
             </div>
-            <h3 class="card-title" data-i18n="product.8.title">Fall Protection</h3>
-            <p class="card-desc" data-i18n="product.8.desc">Harness belts, lanyards &amp; fall arrest systems</p>
-            <div class="card-footer"><span class="card-tag" data-i18n="product.8.tag">Height Safety</span></div>
+            <div class="card-body">
+              <span class="card-num">08</span>
+              <h3 class="card-title" data-i18n="product.8.title">Fall Protection</h3>
+              <p class="card-desc" data-i18n="product.8.desc">Harness belts, lanyards &amp; fall arrest systems</p>
+              <div class="card-footer"><span class="card-tag" data-i18n="product.8.tag">Height Safety</span></div>
+            </div>
           </div>
         </div>
       </div>
