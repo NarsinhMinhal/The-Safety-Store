@@ -743,16 +743,31 @@ function initContactCards() {
   const e = $("#contactEmail"); if (e) e.addEventListener("click", () => { window.location.href = "mailto:info@thesafetystore.com"; });
   const w = $("#contactWhatsapp"); if (w) w.addEventListener("click", () => { window.open("https://wa.me/910000000000", "_blank"); });
 
-  // WhatsApp float — pure CSS fade-in.
-  // CRITICAL: GSAP must NEVER touch fixed elements (breaks position:fixed on iOS Safari).
+  // WhatsApp float — pure CSS fade-in + nudge above footer when footer-bottom visible
   const waf = $("#whatsappFloat");
+  const footerBottom = $(".footer-bottom");
+ 
   if (waf) {
     waf.style.opacity = "0";
     setTimeout(() => {
       waf.style.transition = "opacity 0.7s ease";
       waf.style.opacity = "1";
-      setTimeout(() => { waf.style.transition = ""; }, 800);
+      setTimeout(() => { waf.style.transition = "bottom 0.3s ease, box-shadow 0.3s"; }, 800);
     }, 2600);
+  }
+ 
+  // Push WA button above footer-bottom when it scrolls into view
+  if (waf && footerBottom) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          waf.classList.add("above-footer");
+        } else {
+          waf.classList.remove("above-footer");
+        }
+      });
+    }, { threshold: 0 });   /* trigger the moment any pixel of footer-bottom appears */
+    obs.observe(footerBottom);
   }
 }
 
@@ -888,8 +903,8 @@ const TRANSLATIONS = {
     "nav.industries": "Industries",
     "nav.contact": "Contact",
     "nav.cta": "Get a Quote",
-    "mobile.tagline": "WHERE SAFETY BEGINS · EST. 2019",
-    "hero.badge": "Established 2019 · Global PPE Supplier",
+    "mobile.tagline": "WHERE SAFETY BEGINS",
+    "hero.badge": "Global PPE Supplier",
     "hero.badge.short": "GLOBAL PPE SUPPLIER",
     "hero.title1": "The",
     "hero.title2": "Safety",
@@ -897,10 +912,10 @@ const TRANSLATIONS = {
     "hero.sub": "Premium Quality PPE & Products for Every Professional Need.<br/>Trusted by industries worldwide — Built for precision, designed for safety.",
     "hero.btn1": "Explore Products",
     "hero.btn2": "Learn More",
-    "hero.stat1": "Founded",
-    "hero.stat2": "Products",
+    "hero.stat1": "Products",
+    "hero.stat2": "Brands",
     "hero.stat3": "Categories",
-    "hero.stat4": "Industries",
+    "hero.stat4": "Years of Experience",
     "marquee.1": "Head Protection",
     "marquee.2": "Hand Protection",
     "marquee.3": "Eye & Face Safety",
@@ -954,6 +969,18 @@ const TRANSLATIONS = {
     "product.8.title": "Fall Protection",
     "product.8.desc": "Harness belts, lanyards & fall arrest systems",
     "product.8.tag": "Height Safety",
+    "product.9.title": "Fall Arrest Systems",
+    "product.9.desc": "Full-body harnesses & arrest systems for working at height",
+    "product.9.tag": "Height Safety",
+    "product.10.title": "Fire Safety",
+    "product.10.desc": "Fire extinguishers, suppression equipment & fire-resistant gear",
+    "product.10.tag": "Fire Protection",
+    "product.11.title": "Overhead Load Safety",
+    "product.11.desc": "Lifting slings, shackles & rigging equipment for safe load handling",
+    "product.11.tag": "Lifting Safety",
+    "product.12.title": "Traffic Safety",
+    "product.12.desc": "Cones, barriers & road safety equipment for site & traffic management",
+    "product.12.tag": "Traffic Control",
     "industries.label": "Industries Served",
     "industries.title1": "Built for",
     "industries.title2": "Every",
@@ -1005,8 +1032,8 @@ const TRANSLATIONS = {
     "nav.industries": "Industries",
     "nav.contact": "Contact",
     "nav.cta": "Obtenir un Devis",
-    "mobile.tagline": "LA SÉCURITÉ AVANT TOUT · FONDÉ 2019",
-    "hero.badge": "Fondé en 2019 · Fournisseur Mondial d'EPI",
+    "mobile.tagline": "LA SÉCURITÉ AVANT TOUT",
+    "hero.badge": "Fournisseur Mondial d'EPI",
     "hero.badge.short": "FOURNISSEUR MONDIAL D'EPI",
     "hero.title1": "La",
     "hero.title2": "Sécurité",
@@ -1014,10 +1041,10 @@ const TRANSLATIONS = {
     "hero.sub": "EPI de qualité premium pour chaque besoin professionnel.<br/>Reconnu mondialement — Conçu pour la précision, fait pour la sécurité.",
     "hero.btn1": "Explorer les Produits",
     "hero.btn2": "En Savoir Plus",
-    "hero.stat1": "Fondé",
-    "hero.stat2": "Produits",
+    "hero.stat1": "Produits",
+    "hero.stat2": "Marques",
     "hero.stat3": "Catégories",
-    "hero.stat4": "Industries",
+    "hero.stat4": "Années d'Expérience",
     "marquee.1": "Protection de la Tête",
     "marquee.2": "Protection des Mains",
     "marquee.3": "Protection des Yeux",
@@ -1071,6 +1098,18 @@ const TRANSLATIONS = {
     "product.8.title": "Protection Anti-Chute",
     "product.8.desc": "Harnais, longes et systèmes d'arrêt de chute",
     "product.8.tag": "Sécurité en Hauteur",
+    "product.9.title": "Systèmes Anti-Chute",
+    "product.9.desc": "Harnais complets et systèmes d'arrêt pour le travail en hauteur",
+    "product.9.tag": "Sécurité en Hauteur",
+    "product.10.title": "Sécurité Incendie",
+    "product.10.desc": "Extincteurs, équipements de suppression et équipements résistants au feu",
+    "product.10.tag": "Protection Incendie",
+    "product.11.title": "Sécurité Charge Suspendue",
+    "product.11.desc": "Élingues, manilles et équipements de gréage pour la manutention sûre",
+    "product.11.tag": "Sécurité Levage",
+    "product.12.title": "Sécurité Routière",
+    "product.12.desc": "Cônes, barrières et équipements de sécurité pour la gestion du trafic",
+    "product.12.tag": "Contrôle Trafic",
     "industries.label": "Industries Desservies",
     "industries.title1": "Adapté à",
     "industries.title2": "Chaque",
