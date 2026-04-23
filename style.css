@@ -1326,6 +1326,7 @@ body.menu-open main {
     position: relative;
     width: 100%;
     max-width: 520px;
+    margin-top: 52px;
     margin-left: auto;
 }
 
@@ -1355,6 +1356,7 @@ body.menu-open main {
     text-align: center;
     position: relative;
     overflow: hidden;
+    opacity: 0;
     transition: transform 0.3s var(--ease-out), box-shadow 0.3s, border-color 0.3s;
 }
 

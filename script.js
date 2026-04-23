@@ -303,7 +303,6 @@ function animateHero() {
 
   // Animate PPE category items (desktop only — they're hidden on mobile)
   if (!mob) {
-    gsap.set(".hero-ppe-item", { opacity: 0, y: 30, scale: 0.88 });
     gsap.to(".hero-ppe-item", {
       opacity: 1, y: 0, scale: 1,
       duration: 0.6,
