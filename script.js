@@ -285,8 +285,6 @@ function initHeroParticles() {
    ───────────────────────────────────────────────────────────── */
 
 function primeHeroElements() {
-  /* Called immediately (before loader exits) to hide elements that
-     will be animated in. This prevents the "visible then hidden" flash. */
   if (typeof gsap === "undefined") return;
   gsap.set(".hero-badge",           { opacity: 0, y: 24, scale: 0.9 });
   gsap.set(".hero-line .hero-word", { opacity: 0, y: 80 });
@@ -297,6 +295,14 @@ function primeHeroElements() {
   if (!isMobile()) {
     gsap.set(".hero-ppe-item",      { opacity: 0, y: 30, scale: 0.88 });
   }
+  /* Zero out counters while hidden so user never sees the final value before animation */
+  $$(".stat-num").forEach(el => {
+    const match = el.textContent.match(/(\d+)/);
+    if (match) {
+      el.dataset.counterTarget = el.textContent.trim();
+      el.textContent = "0";
+    }
+  });
 }
 
 function animateHero() {
@@ -316,29 +322,24 @@ function animateHero() {
     .to(".hero-line .hero-word",  { opacity: 1, y: 0, skewX: 0, duration: mob ? 0.85 : 1.15, stagger: 0.1 }, 0.15)
     .to(".hero-sub",              { opacity: 1, y: 0, duration: 0.85 }, mob ? 0.5 : 0.65)
     .to(".hero-actions .btn",     { opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.1 }, mob ? 0.65 : 0.8)
-   .to(".hero-stats",            { opacity: 1, y: 0, duration: 0.7 }, mob ? 0.8 : 1.0)
+    .to(".hero-stats",            { opacity: 1, y: 0, duration: 0.7 }, mob ? 0.8 : 1.0)
     .to(".hero-stat",             { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 }, mob ? 0.85 : 1.05)
     .call(() => {
-      /* After hero stats are visible, trigger counters for any
-         .stat-num already in the viewport */
-      $$(".stat-num").forEach(el => {
-        const r = el.getBoundingClientRect();
-        const inView = r.top < window.innerHeight && r.bottom > 0;
-        if (inView && el.textContent.match(/\d+/)) {
-          const text = el.textContent;
-          const match = text.match(/(\d+)/);
-          if (!match) return;
-          const target = parseInt(match[1]);
-          const suffix = text.replace(/\d/g, "");
-          let start = 0;
-          const step = ts => {
-            if (!start) start = ts;
-            const p = Math.min((ts - start) / 1600, 1);
-            el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target) + suffix;
-            if (p < 1) requestAnimationFrame(step);
-          };
-          requestAnimationFrame(step);
-        }
+      $$(".stat-num[data-counter-target]").forEach(el => {
+        const full   = el.dataset.counterTarget;
+        const match  = full.match(/(\d+)/);
+        if (!match) { el.textContent = full; return; }
+        const target = parseInt(match[1]);
+        const suffix = full.replace(/\d+/, "");
+        let start = 0;
+        const step = ts => {
+          if (!start) start = ts;
+          const p = Math.min((ts - start) / 1800, 1);
+          el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+          else el.removeAttribute("data-counter-target");
+        };
+        requestAnimationFrame(step);
       });
     });
 }
@@ -696,52 +697,32 @@ function initActiveNav() {
    ───────────────────────────────────────────────────────────── */
 
 function initCounters() {
+  /* Hero counters are handled by animateHero() after GSAP fade-in.
+     This observer is a safety net for any .stat-num outside the hero
+     (e.g. added later) — skips ones already processed by animateHero. */
   const obs = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       obs.unobserve(entry.target);
       const el = entry.target;
+      if (el.dataset.counterTarget) return; /* animateHero will handle it */
       const text = el.textContent;
       const match = text.match(/(\d+)/);
       if (!match) return;
       const target = parseInt(match[1]);
-      const suffix = text.replace(/\d/g, "");
-
-      /* Delay start so GSAP hero fade-in finishes before counter runs.
-         Hero animation takes ~1.8s total; we wait for the stat to be
-         actually painted and visible before counting. */
-      const runCounter = () => {
-        let start = 0;
-        const step = ts => {
-          if (!start) start = ts;
-          const p = Math.min((ts - start) / 1600, 1);
-          el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target) + suffix;
-          if (p < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
+      const suffix = full.replace(/\d+/, "");
+      let start = 0;
+      const step = ts => {
+        if (!start) start = ts;
+        const p = Math.min((ts - start) / 1600, 1);
+        el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target) + suffix;
+        if (p < 1) requestAnimationFrame(step);
       };
-
-      /* If element is still opacity:0 (GSAP hasn't shown it yet),
-         wait until it becomes visible then count */
-      const style = window.getComputedStyle(el);
-      if (parseFloat(style.opacity) < 0.1) {
-        const visObs = new MutationObserver(() => {
-          if (parseFloat(window.getComputedStyle(el).opacity) > 0.1) {
-            visObs.disconnect();
-            runCounter();
-          }
-        });
-        visObs.observe(el, { attributeFilter: ["style"] });
-        /* Fallback: run after 2s regardless */
-        setTimeout(() => { visObs.disconnect(); runCounter(); }, 2000);
-      } else {
-        runCounter();
-      }
+      requestAnimationFrame(step);
     });
-  }, { threshold: 0.1, rootMargin: "0px 0px -10px 0px" });
-  $$(".stat-num").forEach(el => obs.observe(el));
+  }, { threshold: 0.2 });
+  $$(".stat-num:not([data-counter-target])").forEach(el => obs.observe(el));
 }
-
 
 /* ─────────────────────────────────────────────────────────────
    15. CONTACT CARDS & WHATSAPP
