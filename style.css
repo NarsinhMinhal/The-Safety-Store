@@ -594,11 +594,12 @@ body.menu-open .navbar {
 }
 
 [data-i18n] {
-    transition: opacity 0.2s ease;
+    transition: opacity 0.25s ease;
 }
 
 body.lang-switching [data-i18n] {
     opacity: 0;
+    transition: opacity 0s; /* instant hide — no fade-out, only fade-in */
 }
 
 
@@ -2689,40 +2690,41 @@ body.menu-open main {
     transition: bottom 0.3s ease, box-shadow 0.3s;
 }
 
-/* When footer is visible, push WA button up above the footer-bottom bar */
+/* Push WA button above footer-bottom bar on all devices */
 .whatsapp-float.above-footer {
-    bottom: 90px;
-    /* desktop */
+    bottom: 90px !important;
 }
 
 @media (max-width: 768px) {
     .whatsapp-float.above-footer {
-        bottom: 130px;
-        /* mobile */
+        bottom: 130px !important;
     }
 }
 
-.whatsapp-float:hover {
-    box-shadow: 0 12px 40px rgba(37, 211, 102, .55);
+/* Hover & scale — desktop pointer only */
+@media (hover: hover) and (pointer: fine) {
+    .whatsapp-float:hover {
+        box-shadow: 0 12px 40px rgba(37, 211, 102, .55);
+    }
+
+    @supports (scale: 1) {
+        .whatsapp-float:hover { scale: 1.1; }
+    }
+
+    @supports not (scale: 1) {
+        .whatsapp-float:hover {
+            transform: translate3d(0, 0, 0) scale(1.1) !important;
+        }
+    }
 }
 
+/* Active press feedback — all devices */
 @supports (scale: 1) {
-    .whatsapp-float:hover {
-        scale: 1.1;
-    }
-
-    .whatsapp-float:active {
-        scale: 0.96;
-    }
+    .whatsapp-float:active { scale: 0.94; }
 }
-
 @supports not (scale: 1) {
-    .whatsapp-float:hover {
-        transform: translate3d(0, 0, 0) scale(1.1) !important;
-    }
-
     .whatsapp-float:active {
-        transform: translate3d(0, 0, 0) scale(0.96) !important;
+        transform: translate3d(0, 0, 0) scale(0.94) !important;
     }
 }
 
@@ -2765,9 +2767,11 @@ body.menu-open main {
     pointer-events: none;
 }
 
-.whatsapp-float:hover .whatsapp-float-tooltip {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
+@media (hover: hover) and (pointer: fine) {
+    .whatsapp-float:hover .whatsapp-float-tooltip {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
 }
 
 .whatsapp-float-tooltip::after {
@@ -2896,6 +2900,21 @@ body.menu-open main {
     color: #FFFFFF;
     font-size: 14px;
     font-weight: 500;
+}
+
+.footer-contact-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-contact-link:hover {
+  color: var(--red);
+}
+.footer-contact-link .f-icon {
+  flex-shrink: 0;
 }
 
 .f-icon {
