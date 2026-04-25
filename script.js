@@ -316,10 +316,32 @@ function animateHero() {
     .to(".hero-line .hero-word",  { opacity: 1, y: 0, skewX: 0, duration: mob ? 0.85 : 1.15, stagger: 0.1 }, 0.15)
     .to(".hero-sub",              { opacity: 1, y: 0, duration: 0.85 }, mob ? 0.5 : 0.65)
     .to(".hero-actions .btn",     { opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.1 }, mob ? 0.65 : 0.8)
-    .to(".hero-stats",            { opacity: 1, y: 0, duration: 0.7 }, mob ? 0.8 : 1.0)
-    .to(".hero-stat",             { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 }, mob ? 0.85 : 1.05);
+   .to(".hero-stats",            { opacity: 1, y: 0, duration: 0.7 }, mob ? 0.8 : 1.0)
+    .to(".hero-stat",             { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 }, mob ? 0.85 : 1.05)
+    .call(() => {
+      /* After hero stats are visible, trigger counters for any
+         .stat-num already in the viewport */
+      $$(".stat-num").forEach(el => {
+        const r = el.getBoundingClientRect();
+        const inView = r.top < window.innerHeight && r.bottom > 0;
+        if (inView && el.textContent.match(/\d+/)) {
+          const text = el.textContent;
+          const match = text.match(/(\d+)/);
+          if (!match) return;
+          const target = parseInt(match[1]);
+          const suffix = text.replace(/\d/g, "");
+          let start = 0;
+          const step = ts => {
+            if (!start) start = ts;
+            const p = Math.min((ts - start) / 1600, 1);
+            el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target) + suffix;
+            if (p < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+      });
+    });
 }
-
 
 /* ─────────────────────────────────────────────────────────────
    7. SCROLL ANIMATIONS
@@ -684,16 +706,39 @@ function initCounters() {
       if (!match) return;
       const target = parseInt(match[1]);
       const suffix = text.replace(/\d/g, "");
-      let start = 0;
-      const step = ts => {
-        if (!start) start = ts;
-        const p = Math.min((ts - start) / 1400, 1);
-        el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target) + suffix;
-        if (p < 1) requestAnimationFrame(step);
+
+      /* Delay start so GSAP hero fade-in finishes before counter runs.
+         Hero animation takes ~1.8s total; we wait for the stat to be
+         actually painted and visible before counting. */
+      const runCounter = () => {
+        let start = 0;
+        const step = ts => {
+          if (!start) start = ts;
+          const p = Math.min((ts - start) / 1600, 1);
+          el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
       };
-      requestAnimationFrame(step);
+
+      /* If element is still opacity:0 (GSAP hasn't shown it yet),
+         wait until it becomes visible then count */
+      const style = window.getComputedStyle(el);
+      if (parseFloat(style.opacity) < 0.1) {
+        const visObs = new MutationObserver(() => {
+          if (parseFloat(window.getComputedStyle(el).opacity) > 0.1) {
+            visObs.disconnect();
+            runCounter();
+          }
+        });
+        visObs.observe(el, { attributeFilter: ["style"] });
+        /* Fallback: run after 2s regardless */
+        setTimeout(() => { visObs.disconnect(); runCounter(); }, 2000);
+      } else {
+        runCounter();
+      }
     });
-  }, { threshold: 0.6 });
+  }, { threshold: 0.1, rootMargin: "0px 0px -10px 0px" });
   $$(".stat-num").forEach(el => obs.observe(el));
 }
 
